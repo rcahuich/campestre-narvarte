@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<h2 class="header light">Tipos de Cobro</h2>
+			<h3 class="header light">Tipos de Cobro</h3>
 
             <a class="waves-effect waves-light btn" href="${createLink(action: "create")}"><i class="material-icons left">add</i> Nuevo Cobro</a>
 
@@ -22,12 +22,10 @@
             <table class="hoverable">
                 <thead>
                 <tr>
-
                     <th>Nombre del Cobro</th>
                     <th>Precio</th>
                     <th>Estatus</th>
                     <th></th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -35,7 +33,7 @@
                     <tr>
 
                         <td>${fieldValue(bean: typeCostInstance, field: "name")}</td>
-                        <td>${fieldValue(bean: typeCostInstance, field: "cost")}</td>
+                        <td>$ <g:formatNumber number="${typeCostInstance?.cost}" format="###,##0" locale="us"/></td>
                         <td><g:formatBoolean boolean="${typeCostInstance.status}" /></td>
                         <td> <a class="waves-effect waves-teal btn-flat" href="${createLink(action: "show", id: typeCostInstance.id)}"> Detalles</a></td>
 

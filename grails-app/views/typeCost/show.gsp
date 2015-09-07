@@ -1,5 +1,5 @@
 <%@ page import="com.narvarte.campestre.TypeCost" %>
-<%@ defa %>
+<%@ defaultCodec="none" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +10,9 @@
 <body>
 <div class="container">
     <h3 class="header light">Detalles de "${typeCostInstance.name}"</h3>
+    <a class="waves-effect waves-light btn" href="${createLink(action: "index")}"><i class="material-icons left">arrow_back</i> Lista de Tipos de Cobro</a>
+
+    <br>
     <g:if test="${flash.message}">
         <div class="card-panel">
             <span class="blue-text text-darken-2"><i class="material-icons left">done</i>${flash.message}</span>
@@ -26,8 +29,8 @@
 
         <span id="cost-label" class="property-label">Costo:</span>
 
-        <span class="property-value" aria-labelledby="cost-label"><g:fieldValue bean="${typeCostInstance}"
-                                                                                field="cost"/></span>
+        <span class="property-value" aria-labelledby="cost-label">
+            $ <g:formatNumber number="${typeCostInstance?.cost}" format="###,##0" locale="us"/></span>
         <br>
 
 

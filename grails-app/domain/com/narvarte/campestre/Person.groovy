@@ -23,6 +23,7 @@ class Person {
         headerFamily nullable: true
         realCost nullable: true
         fictitiousCost nullable: true
+        enrollment nullable: true
     }
 
     def getAge(){

@@ -12,5 +12,6 @@ class Event {
     static hasMany = [persons: Person]
 
     static constraints = {
+        status nullable: true
     }
 }

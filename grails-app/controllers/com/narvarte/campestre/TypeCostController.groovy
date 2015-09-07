@@ -34,6 +34,7 @@ class TypeCostController {
             return
         }
 
+        typeCostInstance.status = !params.status ? false : params.boolean('status')
         typeCostInstance.save flush:true
 
         request.withFormat {
@@ -51,7 +52,6 @@ class TypeCostController {
 
     @Transactional
     def update(TypeCost typeCostInstance) {
-        println params
         if (typeCostInstance == null) {
             notFound()
             return

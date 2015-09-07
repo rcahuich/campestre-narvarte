@@ -11,6 +11,7 @@ class TypeCost {
 
     static constraints = {
         person nullable: true
+        status nullable: true
     }
 
 }
