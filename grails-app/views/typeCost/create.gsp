@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ defaultCodec="none" %>
 <html>
 	<head>
 		<meta name="layout" content="main">

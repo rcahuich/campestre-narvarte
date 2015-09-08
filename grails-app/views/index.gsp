@@ -3,22 +3,75 @@
 	<head>
 		<meta name="layout" content="main"/>
 		<title>Campestre Narvarte 2015</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+        <style type="text/css">
+        nav ul a,
+        nav .brand-logo {
+            color: #444;
+        }
 
+        p {
+            line-height: 2rem;
+        }
+
+        .button-collapse {
+            color: #26a69a;
+        }
+
+        .parallax-container {
+            min-height: 380px;
+            line-height: 0;
+            height: auto;
+            color: rgba(255,255,255,.9);
+        }
+        .parallax-container .section {
+            width: 100%;
+        }
+
+        @media only screen and (max-width : 992px) {
+            .parallax-container .section {
+                position: absolute;
+                top: 40%;
+            }
+            #index-banner .section {
+                top: 10%;
+            }
+        }
+
+        @media only screen and (max-width : 600px) {
+            #index-banner .section {
+                top: 0;
+            }
+        }
+
+        .icon-block {
+            padding: 0 15px;
+        }
+        .icon-block .material-icons {
+            font-size: inherit;
+        }
+
+        footer.page-footer {
+            margin: 0;
+        }
+        </style>
 	</head>
 	<body>
 
-        <div class="section no-pad-bot" id="index-banner">
+    <div id="index-banner" class="parallax-container">
+        <div class="section no-pad-bot">
             <div class="container">
                 <br><br>
-                <h1 class="header center teal-text">Campestre Narvarte</h1>
+                <h1 class="header center teal-text text-lighten-2 light" >Campestre Narvarte</h1>
                 <div class="row center">
                     <h5 class="header col s12 light">Sistema de Registro</h5>
                 </div>
-
                 <br><br>
 
             </div>
         </div>
+        <div class="parallax"><img src="${assetPath(src: 'background3.jpg')}" alt="Unsplashed background img 1" style="display: inherit;"></div>
+    </div>
 
         <div class="container">
             <div class="section">

@@ -1,4 +1,5 @@
 <%@ page import="com.narvarte.campestre.TypeCost" %>
+<%@ defaultCodec="none" %>
 <!DOCTYPE html>
 <html>
 	<head>

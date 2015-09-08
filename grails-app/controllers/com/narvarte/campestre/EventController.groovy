@@ -1,129 +1,81 @@
 package com.narvarte.campestre
 
+import grails.converters.JSON
 
-import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
-
-@Transactional(readOnly = true)
 class EventController {
 
+    def utilsService
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond Event.list(params), model: [eventInstanceCount: Event.count()]
+    def index() {
+        List<Event> eventList = Event.list()
+        boolean showModal = !params.showModal ? false : params.boolean('showModal')
+
+        [eventList: eventList, showModal: showModal]
     }
 
-    def show(Event eventInstance) {
-        respond eventInstance
+    def create(){
+        boolean showModal = !params.showModal ? false : params.boolean('showModal')
+
+        [showModal: showModal]
     }
 
-    def create() {
-        respond new Event(params)
+    def saveEvent(){
+        try {
+            utilsService.saveEventData(params, session)
+            render ([status:"succes", messague: "Se creo el evento ${params.name} correctamente."] as JSON)
+        } catch (Exception e){
+            log.error(e)
+            response.status = 422
+            render (e.getMessage())
+        }
     }
 
-    @Transactional
-    def save() {
-        println params
-        if (params.startDate == "" || params.endtDate == ""){
-            flash.error = "Las fechas no pueden ir vacias."
-            render view: 'create'
+    def detail(){
+        Event event = Event.get(params.id.toLong())
+
+        if(!event){
+            log.error("Evento no encontrado.")
+            redirect (action: "index")
             return
         }
 
-        if (Event.findByStatus(true) ){
+        [event: event]
+    }
 
-        }
+    def edit(){
+        Event event = Event.get(params.id.toLong())
 
-        Event eventInstance = new Event()
-
-        eventInstance.name = params.name
-        eventInstance.startDate = Date.parse("dd/MM/yyyy", params.startDate)
-        eventInstance.endtDate = Date.parse("dd/MM/yyyy", params.endtDate)
-        eventInstance.status = !params.status ? false : params.boolean('status')
-
-        if (eventInstance.hasErrors()) {
-            respond eventInstance.errors, view: 'create'
+        if(!event){
+            log.error("Evento no encontrado para mostrar.")
+            redirect (action: "index")
             return
         }
 
-        eventInstance.save flush: true
+        [event: event]
+    }
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'event.label', default: 'Event'), eventInstance.id])
-                redirect eventInstance
-            }
-            '*' { respond eventInstance, [status: CREATED] }
+    def updateEvent(){
+        try {
+            utilsService.updateEventData(params, session)
+            render ([status:"succes", messague: "Se actualizo el evento ${params.name} correctamente."] as JSON)
+        } catch (Exception e){
+            log.error(e)
+            response.status = 422
+            render (e.getMessage())
         }
     }
 
-    def edit(Event eventInstance) {
-        respond eventInstance
-    }
-
-    @Transactional
-    def update() {
-        println params
-        if (params.startDate == "" || params.endtDate == ""){
-            flash.error = "Las fechas no pueden ir vacias."
-            render view: 'create'
-            return
-        }
-
-        Event eventInstance = Event.get(params.id.toLong())
-
-        if (eventInstance == null) {
-            notFound()
-            return
-        }
-
-        eventInstance.startDate = Date.parse("dd/MM/yyyy", params.startDate)
-        eventInstance.endtDate = Date.parse("dd/MM/yyyy", params.endtDate)
-        eventInstance.status = !params.status ? false : params.boolean('status')
-
-        if (eventInstance.hasErrors()) {
-            respond eventInstance.errors, view: 'edit'
-            return
-        }
-
-        eventInstance.save flush: true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Event.label', default: 'Event'), eventInstance.id])
-                redirect eventInstance
-            }
-            '*' { respond eventInstance, [status: OK] }
+    def delete(){
+        try {
+            utilsService.deleteEventData(params, session)
+            render ([status:"succes", messague: "Se elimino el Evento correctamente."] as JSON)
+        } catch (Exception e){
+            log.error(e)
+            response.status = 422
+            render (e.getMessage())
         }
     }
 
-    @Transactional
-    def delete(Event eventInstance) {
 
-        if (eventInstance == null) {
-            notFound()
-            return
-        }
-
-        eventInstance.delete flush: true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Event.label', default: 'Event'), eventInstance.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NO_CONTENT }
-        }
-    }
-
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NOT_FOUND }
-        }
-    }
 }
