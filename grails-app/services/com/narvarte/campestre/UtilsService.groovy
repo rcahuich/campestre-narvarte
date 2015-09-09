@@ -26,12 +26,12 @@ class UtilsService {
         event.validate()
         if(event.hasErrors()) {
             log.error(event.errors)
-            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.");
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
         }
 
         if (!event.save(flush: true)){
             log.error(event.errors)
-            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.");
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
         }
 
         if (event.status){
@@ -52,7 +52,7 @@ class UtilsService {
 
         if(!event) {
             log.error("No existe evento.")
-            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.");
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
         }
 
         event.name = params.name
@@ -63,12 +63,12 @@ class UtilsService {
         event.validate()
         if(event.hasErrors()) {
             log.error(event.errors)
-            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.");
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
         }
 
         if (!event.save(flush: true)){
             log.error(event.errors)
-            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.");
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
         }
 
         if (event.status){
@@ -88,7 +88,7 @@ class UtilsService {
 
         if (event.status){
             log.error("Evento activo, no se puede borrar")
-            throw new Exception("El evento se encuentra Activo, no se puede eliminar.");
+            throw new Exception("El evento se encuentra Activo, no se puede eliminar.")
         }
 
 
@@ -98,6 +98,35 @@ class UtilsService {
         if (eventList.empty){
             session.removeAttribute("eventId")
         }
+
+    }
+
+    def saveFamilyData(Map params, def session) {
+
+        Person person = Person.get(params.header.toLong())
+
+        if(!person) {
+            log.error("No se encontro a la Persona para la Cabeza de familia.")
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        Family family = new Family()
+        family.name = params.name
+        family.header = person
+
+        family.validate()
+        if(family.hasErrors()) {
+            log.error(family.errors)
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        if (!family.save(flush: true)){
+            log.error(family.errors)
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        person.headerFamily = true
+        person.save()
 
     }
 
