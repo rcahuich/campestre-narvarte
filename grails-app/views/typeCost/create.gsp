@@ -4,6 +4,15 @@
 	<head>
 		<meta name="layout" content="main">
 		<title>Tipos de Cobro</title>
+
+        <script type="application/javascript">
+            $(document).ready(function () {
+                var showModalFirst = "${showModal}";
+                if(showModalFirst === "true"){
+                    $('#modal1').openModal();
+                }
+            })
+        </script>
 	</head>
 	<body>
 
@@ -40,6 +49,22 @@
             </div>
 
         </div>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Cree un Tipo de Costo Activo</h4>
+
+            <p>
+                Para poder crear a un Registro es necesario tener al menos un Tipo de Cobro.
+            </p>
+
+        </div>
+
+        <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+        </div>
+    </div>
 
 	</body>
 </html>

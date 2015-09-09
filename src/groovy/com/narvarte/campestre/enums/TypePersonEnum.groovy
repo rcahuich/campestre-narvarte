@@ -1,4 +1,4 @@
-package com.narvarte.campestre
+package com.narvarte.campestre.enums
 
 /**
  * Created by rbnseven on 06/09/15.

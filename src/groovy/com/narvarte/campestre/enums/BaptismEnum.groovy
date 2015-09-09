@@ -1,12 +1,11 @@
-package com.narvarte.campestre
+package com.narvarte.campestre.enums
 
 /**
  * Created by rbnseven on 06/09/15.
  */
-public enum PaymentStatusEnum implements org.springframework.context.MessageSourceResolvable{
-    PAY,
-    PENDING,
-    DECLINED
+public enum BaptismEnum implements org.springframework.context.MessageSourceResolvable{
+    YES_BAPTIZED,
+    NOT_BAPTIZED
 
     Object[] getArguments() { [] as Object[] }
 

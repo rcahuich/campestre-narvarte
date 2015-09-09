@@ -1,29 +1,35 @@
 package com.narvarte.campestre
 
+import com.narvarte.campestre.enums.BaptismEnum
+import com.narvarte.campestre.enums.TypePersonEnum
+
 class Person {
 
     String name
     Date birthday
-    Boolean headerFamily
-    Boolean enrollment
+    Boolean headerFamily = false
+    Boolean enrollment = false
 
     BaptismEnum baptism
     TypePersonEnum typePerson
     TypeCost typeCost
 
     Event event
+    Family family
     Double fictitiousCost
     Double realCost
 
-    Date dateCreated
+    Date dateCreated = new Date()
+    Date dateUpdate = new Date()
 
-    static belongsTo = [event: Event]
+    static belongsTo = [event: Event, family: Family]
 
     static constraints = {
         headerFamily nullable: true
         realCost nullable: true
         fictitiousCost nullable: true
         enrollment nullable: true
+        family nullable: true
     }
 
     def getAge(){

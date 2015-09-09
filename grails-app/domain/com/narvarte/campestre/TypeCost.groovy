@@ -14,4 +14,8 @@ class TypeCost {
         status nullable: true
     }
 
+    String toString() {
+        return "$name - \$ $cost"
+    }
+
 }

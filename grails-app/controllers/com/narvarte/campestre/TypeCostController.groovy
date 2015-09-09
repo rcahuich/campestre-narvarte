@@ -19,7 +19,9 @@ class TypeCostController {
     }
 
     def create() {
-        respond new TypeCost(params)
+        boolean showModal = !params.showModal ? false : params.boolean('showModal')
+
+        [showModal: showModal, typeCostInstance:  new TypeCost(params)]
     }
 
     @Transactional

@@ -1,5 +1,7 @@
 package com.narvarte.campestre
 
+import com.narvarte.campestre.enums.BaptismEnum
+import com.narvarte.campestre.enums.TypePersonEnum
 import grails.transaction.Transactional
 
 @Transactional
@@ -97,6 +99,37 @@ class UtilsService {
         List<Event> eventList = Event.findAllByStatus(true)
         if (eventList.empty){
             session.removeAttribute("eventId")
+        }
+
+    }
+
+    def savePersonData(Map params, def session) {
+
+        Person person = new Person()
+        String eventId = session["eventId"]
+        Event event = Event.get(eventId.toLong())
+
+        person.name = params.name
+        person.birthday = Date.parse("dd/MM/yyy", params.birthday).clearTime()
+        person.baptism = BaptismEnum[params.baptism]
+        person.typePerson = TypePersonEnum[params.typePerson]
+        person.typeCost = TypeCost.get(params.typeCost.toLong())
+        person.event = event
+        person.realCost = params.double('realCost')
+        person.fictitiousCost = params.double('fictitiousCost')
+
+        event.addToPersons(person)
+        event.save()
+
+        person.validate()
+        if(person.hasErrors()) {
+            log.error(person.errors)
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.");
+        }
+
+        if (!person.save(flush: true)){
+            log.error(person.errors)
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.");
         }
 
     }

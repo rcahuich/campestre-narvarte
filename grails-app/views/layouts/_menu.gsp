@@ -3,7 +3,7 @@
 <ul id="dropdown1" class="dropdown-content">
     <li><a href="${createLink(controller: "typeCost")}" class="teal-text light">Tipos De Costo</a></li>
     <li><a href="${createLink(controller: "event")}" class="teal-text light">Eventos</a></li>
-    <li><a href="#!" class="teal-text light">two</a></li>
+    <li><a href="${createLink(controller: "person")}" class="teal-text light">Registros</a></li>
     <li class="divider"></li>
     <li><a href="#!" class="teal-text light">three</a></li>
 </ul>

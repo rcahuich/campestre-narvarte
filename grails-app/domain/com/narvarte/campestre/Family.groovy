@@ -4,10 +4,10 @@ class Family {
 
     String name
     Person header
-    List persons
+    List personsList
     List payments
 
-    static hasMany = [persons: Person, payments: PaymentEnroll]
+    static hasMany = [personsList: Person, payments: PaymentEnroll]
 
     static constraints = {
     }
