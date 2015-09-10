@@ -1,6 +1,8 @@
 package com.narvarte.campestre
 
 import com.narvarte.campestre.enums.BaptismEnum
+import com.narvarte.campestre.enums.LodgementEnum
+import com.narvarte.campestre.enums.TransportEnum
 import com.narvarte.campestre.enums.TypePersonEnum
 
 class Person {
@@ -9,9 +11,12 @@ class Person {
     Date birthday
     Boolean headerFamily = false
     Boolean enrollment = false
+    Boolean haveFamily = false
 
     BaptismEnum baptism
     TypePersonEnum typePerson
+    TransportEnum transport
+    LodgementEnum lodgement
     TypeCost typeCost
 
     Event event
@@ -30,6 +35,9 @@ class Person {
         fictitiousCost nullable: true
         enrollment nullable: true
         family nullable: true
+        haveFamily nullable: true
+        transport nullable: true
+        lodgement nullable: true
     }
 
     def getAge(){

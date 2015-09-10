@@ -66,7 +66,7 @@
                         <td>${i+1}</td>
                         <td>${fieldValue(bean: family, field: "name")}</td>
                         <td>${family?.header?.name}</td>
-                        <td>${family?.persons.size()}</td>
+                        <td>${family?.personsList.size()}</td>
                         <td><a href="${createLink(action: "detail", id: family.id)}" class="waves-effect waves-light btn">Detalles</a></td>
                     </tr>
                 </g:each>

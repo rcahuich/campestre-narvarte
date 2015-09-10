@@ -34,4 +34,40 @@ class PersonController {
             render (e.getMessage())
         }
     }
+
+    def detail(){
+        Person person = Person.get(params.id.toLong())
+
+        if(!person){
+            log.error("Persona no encontrada.")
+            redirect (action: "index")
+            return
+        }
+
+        [person: person]
+    }
+
+    def edit(){
+        Person person = Person.get(params.id.toLong())
+
+        if(!person){
+            log.error("Persona no encontrada.")
+            redirect (action: "index")
+            return
+        }
+
+        [person: person]
+    }
+
+    def updatePerson(){
+        try {
+            utilsService.updatePersonData(params, session)
+            render ([status:"succes", messague: "Se actualizo el registro de ${params.name} correctamente."] as JSON)
+        } catch (Exception e){
+            log.error(e)
+            response.status = 422
+            render (e.getMessage())
+        }
+    }
+
 }

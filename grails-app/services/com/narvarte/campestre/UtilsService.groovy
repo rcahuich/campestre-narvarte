@@ -1,6 +1,8 @@
 package com.narvarte.campestre
 
 import com.narvarte.campestre.enums.BaptismEnum
+import com.narvarte.campestre.enums.LodgementEnum
+import com.narvarte.campestre.enums.TransportEnum
 import com.narvarte.campestre.enums.TypePersonEnum
 import grails.transaction.Transactional
 
@@ -113,13 +115,46 @@ class UtilsService {
         person.birthday = Date.parse("dd/MM/yyy", params.birthday).clearTime()
         person.baptism = BaptismEnum[params.baptism]
         person.typePerson = TypePersonEnum[params.typePerson]
-        person.typeCost = TypeCost.get(params.typeCost.toLong())
+        person.transport = TransportEnum[params.transport]
+        person.lodgement = LodgementEnum[params.lodgement]
+        person.typeCost = TypeCost.get(params.typeCost.id.toLong())
         person.event = event
-        person.realCost = params.double('realCost')
+        person.realCost = person.typeCost.cost
         person.fictitiousCost = params.double('fictitiousCost')
 
         event.addToPersons(person)
         event.save()
+
+        person.validate()
+        if (person.hasErrors()) {
+            log.error(person.errors)
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.");
+        }
+
+        if (!person.save(flush: true)) {
+            log.error(person.errors)
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.");
+        }
+
+    }
+
+    def updatePersonData(Map params, def session) {
+        Person person = Person.get(params.id.toLong())
+
+        if(!person) {
+            log.error("No existe la persona.")
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        person.name = params.name
+        person.birthday = Date.parse("dd/MM/yyy", params.birthday).clearTime()
+        person.baptism = BaptismEnum[params.baptism]
+        person.typePerson = TypePersonEnum[params.typePerson]
+        person.transport = TransportEnum[params.transport]
+        person.lodgement = LodgementEnum[params.lodgement]
+        person.typeCost = TypeCost.get(params.typeCost.id.toLong())
+        person.realCost = person.typeCost.cost
+        person.fictitiousCost = params.double('fictitiousCost')
 
         person.validate()
         if (person.hasErrors()) {
@@ -146,6 +181,7 @@ class UtilsService {
         Family family = new Family()
         family.name = params.name
         family.header = person
+        family.addToPersonsList(person)
 
         family.validate()
         if(family.hasErrors()) {
@@ -159,6 +195,8 @@ class UtilsService {
         }
 
         person.headerFamily = true
+        person.haveFamily = true
+        person.family = family
         person.save()
 
     }

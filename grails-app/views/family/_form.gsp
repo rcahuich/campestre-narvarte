@@ -9,7 +9,7 @@
 
     <div class="input-field col s6">
         <g:select id="header" name="header"
-                  from="${com.narvarte.campestre.Person.findAllByHeaderFamily(false)}"
+                  from="${com.narvarte.campestre.Person.findAllByHeaderFamilyAndHaveFamily(false, false)}"
                   optionKey="id"
                   required=""
                   value="${family?.header?.name}"

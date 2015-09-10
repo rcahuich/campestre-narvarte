@@ -115,9 +115,20 @@
             <a class="waves-effect waves-light btn" href="${createLink(action: "index")}"><i class="material-icons left">list</i> Lista de Registros</a>
             <br><br>
 
-            <div id="alertSuccess" class="card-panel" style="display: none;">
-                <span class="blue-text text-darken-2"><i class="material-icons left">done</i>
-                    <span id="textSucces"></span></span>
+            <div id="alertSuccess" class="row" style="display: none">
+                <div class="col s12 center">
+                    <div class="card blue-grey darken-1 light">
+                        <div class="card-content white-text">
+                            <i class="large material-icons">done</i>
+                            <p id="textSucces"></p>
+                        </div>
+                        <div class="card-action">
+                            <a href="${createLink(action: "create")}">Nuevo Registro</a>
+                            <a href="#">Agregar a Familia</a>
+                            <a href="${createLink(uri: "/")}">Inicio</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="alertError" class="card-panel" style="display: none;">

@@ -1,4 +1,4 @@
-<%@ page import="com.narvarte.campestre.enums.TypePersonEnum; com.narvarte.campestre.enums.BaptismEnum; com.narvarte.campestre.Person" %>
+<%@ page import="com.narvarte.campestre.enums.TransportEnum; com.narvarte.campestre.enums.LodgementEnum; com.narvarte.campestre.enums.TypePersonEnum; com.narvarte.campestre.enums.BaptismEnum; com.narvarte.campestre.Person" %>
 
 <div class="row">
     <div class="input-field col s6">
@@ -18,7 +18,7 @@
         <g:select id="baptism"
                   name="baptism"
                   from="${BaptismEnum.values()}"
-                  value="${BaptismEnum}"
+                  value="${person?.baptism}"
                   valueMessagePrefix="com.narvarte.campestre.enums.BaptismEnum"
                   required=""
         />
@@ -29,7 +29,7 @@
         <g:select id="typePerson"
                   name="typePerson"
                   from="${TypePersonEnum.values()}"
-                  value="${TypePersonEnum}"
+                  value="${person?.typePerson}"
                   valueMessagePrefix="com.narvarte.campestre.enums.TypePersonEnum"
                   required=""
         />
@@ -41,20 +41,25 @@
 <div class="row">
     <div class="input-field col s6">
         <g:select id="typeCost"
-                  name="typeCost"
+                  name="typeCost.id"
                   from="${com.narvarte.campestre.TypeCost.findAllByStatus(true)}"
                   optionKey="id"
-                  value="${person?.typeCost}"
-                  class="many-to-one"
+                  value="${person?.typeCost?.id}"
                   noSelection="['':'- Seleccione un Cobro -']"
-                  data-cost="${person?.typeCost?.cost}"
                   required=""
         />
-        <label for="realCost">Tipo de Costo</label>
+        <label for="typeCost">Tipo de Costo</label>
     </div>
 
     <div class="input-field col s6">
-
+        <g:select id="lodgement"
+                  name="lodgement"
+                  from="${LodgementEnum.values()}"
+                  value="${person?.lodgement}"
+                  valueMessagePrefix="com.narvarte.campestre.enums.LodgementEnum"
+                  required=""
+        />
+        <label for="lodgement">Alojamiento</label>
     </div>
 
 </div>
@@ -68,6 +73,25 @@
     <div class="input-field col s6">
         <input id="fictitiousCost" type="number" class="validate" name="fictitiousCost" value="${person?.fictitiousCost}" aria-required="true" required placeholder="">
         <label for="fictitiousCost">Costo Final</label>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="input-field col s6">
+        <g:select id="transport"
+                  name="transport"
+                  from="${TransportEnum.values()}"
+                  value="${person?.transport}"
+                  valueMessagePrefix="com.narvarte.campestre.enums.TransportEnum"
+                  required=""
+        />
+        <label for="transport">Tipo de Transporte</label>
+    </div>
+
+    <div class="input-field col s6">
+
     </div>
 
 </div>

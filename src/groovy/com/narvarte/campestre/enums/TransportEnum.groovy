@@ -1,15 +1,11 @@
 package com.narvarte.campestre.enums
 
 /**
- * Created by rbnseven on 06/09/15.
+ * Created by rbnseven on 09/09/15.
  */
-public enum TypePersonEnum implements org.springframework.context.MessageSourceResolvable{
-    NORMAL,
-    PASTOR,
-    STAFF,
-    ESPECIAL,
-    SPEAKER,
-    FAMILY_SPEAKER
+public enum TransportEnum  implements org.springframework.context.MessageSourceResolvable{
+    BUS,
+    CAR
 
     Object[] getArguments() { [] as Object[] }
 
