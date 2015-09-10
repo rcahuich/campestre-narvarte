@@ -39,4 +39,8 @@ class Person {
             return total.trunc()
         }
     }
+
+    String toString(){
+        return "$name"
+    }
 }
