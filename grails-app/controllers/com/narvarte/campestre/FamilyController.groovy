@@ -29,4 +29,30 @@ class FamilyController {
         }
     }
 
+    def detail(){
+        Family family = Family.get(params.id.toLong())
+
+        if(!family){
+            log.error("Familia no encontrada.")
+            redirect (action: "index")
+            return
+        }
+
+        List<Person> personListForSelected = Person.findAllByHeaderFamilyAndHaveFamily(false,false);
+
+        [family: family, personListForSelected: personListForSelected]
+    }
+
+    def addMember(){
+        println params
+        try {
+            //utilsService.deleteEventData(params, session)
+            render ([status:"succes", messague: "Se elimino el Evento correctamente."] as JSON)
+        } catch (Exception e){
+            log.error(e)
+            response.status = 422
+            render (e.getMessage())
+        }
+    }
+
 }

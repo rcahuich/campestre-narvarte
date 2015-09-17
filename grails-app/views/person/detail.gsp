@@ -42,7 +42,7 @@
                 </div>
                 <div class="card-action center-align truncate">
                     <g:if test="${person.haveFamily}">
-                        <a href="#" class="blue-text text-darken-4">Familia ${person?.family?.name}</a>
+                        <a href="${createLink(controller: "family", action: "detail", id: person?.family?.id)}" class="blue-text text-darken-4">Familia ${person?.family?.name}</a>
                     </g:if>
                     <g:else>
                         <a href="#" class="blue-text text-darken-4">Agregar a familia</a>

@@ -86,7 +86,7 @@
                             <div class="collection with-header">
                                 <a href="${createLink(controller: "person", action: "create")}" class="collection-item">Agregar Persona <i class="material-icons right">account_box</i><i class="material-icons right">add</i></a>
                                 <a href="#!" class="collection-item">Realizar Pago <i class="material-icons right">payment</i><i class="material-icons right">add</i></a>
-                                <a href="#!" class="collection-item">Nueva Familia <i class="material-icons right">group</i><i class="material-icons right">add</i></a>
+                                <a href="${createLink(controller: "family", action: "create")}" class="collection-item">Nueva Familia <i class="material-icons right">group</i><i class="material-icons right">add</i></a>
                                 <a href="#!" class="collection-item">Persona a Familia <i class="material-icons right">group</i> <i class="material-icons right">arrow_forward</i> <i class="material-icons right">account_box</i></a>
                             </div>
                         </div>
