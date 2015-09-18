@@ -5,6 +5,7 @@ import com.narvarte.campestre.enums.LodgementEnum
 import com.narvarte.campestre.enums.TransportEnum
 import com.narvarte.campestre.enums.TypePersonEnum
 import grails.transaction.Transactional
+import org.apache.commons.lang.RandomStringUtils
 
 @Transactional
 class UtilsService {
@@ -199,6 +200,80 @@ class UtilsService {
         person.family = family
         person.save()
 
+    }
+
+    Map saveMemberInFamily(Map params) {
+
+        Person person = Person.get(params.idMember.toLong())
+        Family family = Family.get(params.id.toLong())
+
+        if(!person || !family) {
+            log.error("No se encontro a la Persona o Familia.")
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        family.addToPersonsList(person)
+
+        family.validate()
+        if(family.hasErrors()) {
+            log.error(family.errors)
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        if (!family.save(flush: true)){
+            log.error(family.errors)
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        person.haveFamily = true
+        person.family = family
+        person.save()
+
+        return [success: true, person: person]
+
+    }
+
+    Map savePaymentInFamily(Map params, def session) {
+
+        Family family = Family.get(params.id.toLong())
+        String eventId = session["eventId"]
+        Event event = Event.get(eventId.toLong())
+
+        if(!family || !event) {
+            log.error("No se encontro a la Familia.")
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        PaymentEnroll payment = new PaymentEnroll()
+        payment.family = family
+        payment.event = event
+        payment.paymentDate = new Date()
+        payment.personPay = params.personPay
+        payment.total = params.double('realCost')
+        payment.purchaseOrderNumber = generateRandomString(9)
+
+        family.addToPayments(payment)
+
+        payment.validate()
+        if(payment.hasErrors()) {
+            log.error(payment.errors)
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        if (!payment.save(flush: true)){
+            log.error(payment.errors)
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        return [success: true, family: family, payment: payment]
+
+    }
+
+    private String generateRandomString(int length){
+        String charset = (('a'..'z') + ('A'..'Z') + ('0'..'9')).join()
+        String randomString = RandomStringUtils.random(length, charset.toCharArray())
+
+        return randomString.toUpperCase()
     }
 
 }

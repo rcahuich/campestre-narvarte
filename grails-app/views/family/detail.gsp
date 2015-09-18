@@ -107,30 +107,66 @@
 
                 $(document).on('click', '#deleteEvent', function (e) {
                     e.preventDefault();
-                    $('#loader').show();
-                    $(this).prop('disabled', true);
-                    $(this).addClass("disabled");
 
-                    $.ajax({
-                        type: "GET",
-                        data: {idMember: $('#member').val()},
-                        url: '<g:createLink controller="family" action="addMember" id="${family.id}"/>',
-                        success: function (data) {
-                            $('#deleteEvent').hide();
-                            $('#btnCancel').hide();
-                            $('#textInfo').hide();
-                            $('#btnClose').show();
-                            $('#textSucces').html(data.messague);
-                            $('#loader').hide();
-                            $('#alertSuccess').show();
-                        },
-                        error: function (data) {
-                            $('#textInfo').hide();
-                            $('#textError').html(data.responseText);
-                            $('#loader').hide();
-                            $('#alertError').show();
-                        }
-                    });
+                    if($('#member').val() != ""){
+                        $('#loader').show();
+                        $(this).prop('disabled', true);
+                        $(this).addClass("disabled");
+
+                        $.ajax({
+                            type: "GET",
+                            data: {idMember: $('#member').val()},
+                            url: '<g:createLink controller="family" action="addMember" id="${family.id}"/>',
+                            success: function (data) {
+                                $('#deleteEvent').hide();
+                                $('#btnCancel').hide();
+                                $('#textInfo').hide();
+                                $('#btnClose').show();
+                                $('#textSucces').html(data.messague);
+                                $('#loader').hide();
+                                $('#alertSuccess').show();
+                            },
+                            error: function (data) {
+                                $('#textInfo').hide();
+                                $('#textError').html(data.responseText);
+                                $('#loader').hide();
+                                $('#alertError').show();
+                            }
+                        });
+                    }
+
+                });
+
+                $(document).on('click', '#deleteEventP', function (e) {
+                    e.preventDefault();
+
+                    if($('#realCost').val() != "" && $('#personPay').val() != ""){
+                        $('#loaderP').show();
+                        $(this).prop('disabled', true);
+                        $(this).addClass("disabled");
+
+                        $.ajax({
+                            type: "GET",
+                            data: {realCost: $('#realCost').val(), personPay: $('#personPay').val()},
+                            url: '<g:createLink controller="family" action="addPayment" id="${family.id}"/>',
+                            success: function (data) {
+                                $('#deleteEventP').hide();
+                                $('#btnCancelP').hide();
+                                $('#textInfoP').hide();
+                                $('#btnCloseP').show();
+                                $('#textSuccesP').html(data.messague);
+                                $('#loaderP').hide();
+                                $('#alertSuccessP').show();
+                            },
+                            error: function (data) {
+                                $('#textInfoP').hide();
+                                $('#textErrorP').html(data.responseText);
+                                $('#loaderP').hide();
+                                $('#alertErrorP').show();
+                            }
+                        });
+                    }
+
                 });
             })
 
@@ -156,12 +192,12 @@
                             <p class="medium-small grey-text">Cabeza de Familia</p>
                         </div>
                         <div class="col s2 center-align">
-                            <h4 class="card-title grey-text text-darken-4">${family?.personsList?.size()}</h4>
-                            <p class="medium-small grey-text">Total de Miembros</p>
+                            <h4 class="card-title grey-text text-darken-4">$ <g:formatNumber number="${family.totalPayment()}" format="###,##0" locale="us"/></h4>
+                            <p class="medium-small grey-text">Total a Pagar</p>
                         </div>
                         <div class="col s2 center-align">
-                            <h4 class="card-title grey-text text-darken-4">$ 0</h4>
-                            <p class="medium-small grey-text">Total de Pago</p>
+                            <h4 class="card-title grey-text text-darken-4">$ <g:formatNumber number="${family.totalPayment() - family.totalPay()}" format="###,##0" locale="us"/></h4>
+                            <p class="medium-small grey-text">Resta a Pagar</p>
                         </div>
                         <div class="col s1 right-align">
                             <a class="btn-floating activator waves-effect waves-light darken-2 right">
@@ -176,18 +212,22 @@
                         <span><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> ${family.header}</span>
                     </p>
 
-                    <p>Total de pago realizado: $ 0.00 resta $ 0.00</p>
-                    <%--
-                    <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> +1 (612) 222 8989</p>
-                    <p><i class="mdi-communication-email cyan-text text-darken-2"></i> mail@domain.com</p>
-                    <p><i class="mdi-social-cake cyan-text text-darken-2"></i> 18th June 1990</p>
-                    <p><i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> BAR - AUS</p>--%>
+                    <p>Total de pago realizado: $ <g:formatNumber number="${family.totalPay()}" format="###,##0" locale="us"/> resta $ <g:formatNumber number="${family.totalPayment() - family.totalPay()}" format="###,##0" locale="us"/></p>
+
+                    <p>Historial de Pagos:</p>
+
+                    <p>
+                    <g:each in="${family.payments}" var="payment">
+                        - Fecha de Pago:  <g:formatDate date="${payment.paymentDate}" format="dd/MM/yyyy HH:mm"/> con total de $ <g:formatNumber number="${payment.total}" format="###,##0" locale="us"/>, la persona que pago: ${payment.personPay}
+                        <br>
+                    </g:each>
+                    </p>
                 </div>
             </div>
 
             <a class="waves-effect waves-light btn" href="${createLink(action: "index")}"><i class="material-icons left">arrow_back</i> Lista de Familias</a>
             <a class="waves-effect waves-light btn" href="#"><i class="material-icons left">edit</i> Editar Familia</a>
-            <a class="waves-effect waves-light btn" href="#"><i class="material-icons left">payment</i> Realizar Pago</a>
+            <a class="waves-effect waves-light btn modal-trigger" href="#modalAddPayment"><i class="material-icons left">payment</i> Realizar Pago</a>
             <a class="waves-effect waves-light btn modal-trigger" href="#modalAddMember"><i class="material-icons left">account_box</i> Agregar Miembro</a>
 
             <g:if test="${flash.message}">
@@ -198,21 +238,13 @@
                 <div class="row">
                     <g:each in="${family.personsList}" status="i" var="person">
                         <div class="col m4 animated fadeInUp"
-                             style="-webkit-animation-duration:${i * 300}ms">
+                             style="-webkit-animation-duration:${i * 400}ms">
                             <div class="card lighten-1">
                                 <div class="card-content center-align">
                                     <div class="card-title truncate black-text">${person.name}</div>
                                     <i class="teal-text large material-icons">account_circle</i>
-                                    <p class="black-text text-darken-4">This is some description or profile text here..</p>
+                                    <p class="black-text text-darken-4">${person.age} años</p>
                                     <br>
-                                    <div class="row">
-                                        <div class="col m2 hide-on-small-only">&nbsp;</div>
-                                        <div class="col m2 s6 center-align"><a href="#"><i class="teal-text small mdi-action-face-unlock"></i></a></div>
-                                        <div class="col m2 s6 center-align"><a href="#"><i class="teal-text small mdi-action-highlight-remove"></i></a></div>
-                                        <div class="col m2 s6 center-align"><a href="#"><i class="teal-text small mdi-action-alarm-on"></i></a></div>
-                                        <div class="col m2 s6 center-align"><a href="#"><i class="teal-text small mdi-action-account-balance"></i></a></div>
-                                        <div class="col m2 .hide-on-small-only">&nbsp;</div>
-                                    </div>
                                 </div>
                                 <div class="card-action center-align truncate">
                                     <a href="${createLink(controller: "person", action: "detail", id: person.id)}" class="black-text text-darken-4">Ver Registro</a>
@@ -229,7 +261,7 @@
 
 
     <!-- Modal Add Member -->
-    <div id="modalAddMember" class="modal">
+    <div id="modalAddMember" class="modal modal-fixed-footer">
         <div class="modal-content">
             <h4>Agregar Miembro a la Familia</h4>
 
@@ -243,7 +275,8 @@
                                   from="${personListForSelected}"
                                   optionKey="id"
                                   required=""
-                                  value="${family?.personsList*.id}"
+                                  value=""
+                                  noSelection="['':'- Seleccione un Registro -']"
                                   class="many-to-one"/>
                         <label for="addMember">Seleccione un Miembro</label>
                     </div>
@@ -252,8 +285,14 @@
             </div>
 
             <div id="alertSuccess" class="card-panel" style="display: none;">
-                <span class="blue-text text-darken-2"><i class="material-icons left">done</i>
-                    <span id="textSucces"></span></span>
+                <div class="col s12 center">
+                    <div class="card blue-grey darken-1 light">
+                        <div class="card-content white-text">
+                            <i class="large material-icons">done</i>
+                            <p id="textSucces"></p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="alertError" class="card-panel" style="display: none;">
@@ -289,6 +328,70 @@
         </div>
     </div>
 
+    <!-- Modal Add Member -->
+    <div id="modalAddPayment" class="modal">
+        <div class="modal-content">
+            <h4>Realizar pago a la Familia</h4>
+
+            <div id="textInfoP">
+                Intruduzca el total de pago para agregarlo a la Familia ${family?.name}.
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="realCost" type="number" class="validate" name="realCost" value="" aria-required="true" required placeholder="" autofocus>
+                        <label for="realCost">Total a Pagar</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="personPay" type="text" class="validate" name="personPay" value="" aria-required="true" required placeholder="">
+                        <label for="personPay">Persona que Paga</label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="alertSuccessP" class="card-panel" style="display: none;">
+                <div class="col s12 center">
+                    <div class="card blue-grey darken-1 light">
+                        <div class="card-content white-text">
+                            <i class="large material-icons">done</i>
+                            <p id="textSuccesP"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="alertErrorP" class="card-panel" style="display: none;">
+                <span class="red-text text-darken-2"><i class="material-icons left">error</i>
+                    <span id="textErrorP"></span></span>
+            </div>
+
+            <div id="loaderP" class="col s12 m4 center" style="display: none;">
+                <div class="preloader-wrapper small active">
+                    <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <a id="btnCloseP" class="waves-effect waves-green btn-flat" href="${createLink(action: "detail", id: family.id)}"
+               style="display: none;">Cerrar</a>
+            <a id="deleteEventP" href="#!" class="waves-effect waves-teal btn-flat">
+                <i class="material-icons left">payment</i> Pagar </a>
+            <a id="btnCancelP" href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        </div>
+    </div>
 
 	</body>
 </html>

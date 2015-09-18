@@ -44,10 +44,20 @@ class FamilyController {
     }
 
     def addMember(){
-        println params
         try {
-            //utilsService.deleteEventData(params, session)
-            render ([status:"succes", messague: "Se elimino el Evento correctamente."] as JSON)
+            Map result = utilsService.saveMemberInFamily(params)
+            render ([status:"succes", messague: "Se agrego a ${result.person.name} a la Familia ${result.person.family.name}."] as JSON)
+        } catch (Exception e){
+            log.error(e)
+            response.status = 422
+            render (e.getMessage())
+        }
+    }
+
+    def addPayment(){
+        try {
+            Map result = utilsService.savePaymentInFamily(params, session)
+            render ([status:"succes", messague: "Se realizó el pago de \$ ${result.payment.total} a la Familia ${result.family.name}."] as JSON)
         } catch (Exception e){
             log.error(e)
             response.status = 422

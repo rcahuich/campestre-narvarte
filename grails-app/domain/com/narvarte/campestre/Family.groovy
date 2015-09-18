@@ -11,4 +11,12 @@ class Family {
 
     static constraints = {
     }
+
+    Double totalPayment() {
+        return personsList.findAll()*.realCost.sum()?:0.0
+    }
+
+    Double totalPay() {
+        return payments.findAll()*.total.sum()?:0.0
+    }
 }

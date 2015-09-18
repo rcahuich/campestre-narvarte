@@ -124,7 +124,7 @@
                         </div>
                         <div class="card-action">
                             <a href="${createLink(action: "create")}">Nuevo Registro</a>
-                            <a href="#">Agregar a Familia</a>
+                            <a href="${createLink(controller: "family", action: "index")}">Agregar a Familia</a>
                             <a href="${createLink(uri: "/")}">Inicio</a>
                         </div>
                     </div>
