@@ -103,6 +103,18 @@
 
 </div>
 
+<div class="row">
+
+    <div class="input-field col s6">
+        <input type="checkbox" id="secured" name="secured" <g:if test="${person?.secured}">checked="checked"</g:if>/>
+        <label for="secured" data-error="error" data-success="correcto">Asegurado</label>
+    </div>
+
+    <div class="input-field col s6">
+
+    </div>
+
+</div>
 
 
 

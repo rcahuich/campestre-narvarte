@@ -122,6 +122,7 @@ class UtilsService {
         person.transport = TransportEnum[params.transport]
         person.lodgement = LodgementEnum[params.lodgement]
         person.groupTeam = GroupEnum[params.groupTeam]
+        person.secured = !params.secured ? false : params.boolean('secured')
         person.typeCost = TypeCost.get(params.typeCost.id.toLong())
         person.event = event
         person.realCost = person.typeCost.cost
@@ -158,6 +159,7 @@ class UtilsService {
         person.transport = TransportEnum[params.transport]
         person.lodgement = LodgementEnum[params.lodgement]
         person.groupTeam = GroupEnum[params.groupTeam]
+        person.secured = !params.secured ? false : params.boolean('secured')
         person.typeCost = TypeCost.get(params.typeCost.id.toLong())
         person.realCost = person.typeCost.cost
         person.fictitiousCost = params.double('fictitiousCost')

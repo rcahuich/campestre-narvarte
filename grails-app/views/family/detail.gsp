@@ -226,7 +226,7 @@
                     <img class="activator" src="${assetPath(src: 'family_header.png')}" alt="user background">
                 </div>
                 <figure class="card-profile-image">
-                    <img src="${assetPath(src: 'avatar2.png')}" alt="profile image" class="circle z-depth-2 responsive-img activator">
+                    <img src="${assetPath(src: 'avatar5.jpg')}" alt="profile image" class="circle z-depth-2 responsive-img activator">
                 </figure>
                 <div class="card-content">
                     <div class="row">

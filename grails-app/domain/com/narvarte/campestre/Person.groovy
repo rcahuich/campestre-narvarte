@@ -13,6 +13,7 @@ class Person {
     Boolean headerFamily = false
     Boolean enrollment = false
     Boolean haveFamily = false
+    Boolean secured = false
 
     BaptismEnum baptism
     TypePersonEnum typePerson
