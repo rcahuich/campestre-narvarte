@@ -1,4 +1,4 @@
-<%@ page import="com.narvarte.campestre.enums.TransportEnum; com.narvarte.campestre.enums.LodgementEnum; com.narvarte.campestre.enums.TypePersonEnum; com.narvarte.campestre.enums.BaptismEnum; com.narvarte.campestre.Person" %>
+<%@ page import="com.narvarte.campestre.enums.GroupEnum; com.narvarte.campestre.enums.TransportEnum; com.narvarte.campestre.enums.LodgementEnum; com.narvarte.campestre.enums.TypePersonEnum; com.narvarte.campestre.enums.BaptismEnum; com.narvarte.campestre.Person" %>
 
 <div class="row">
     <div class="input-field col s6">
@@ -91,7 +91,14 @@
     </div>
 
     <div class="input-field col s6">
-
+        <g:select id="groupTeam"
+                  name="groupTeam"
+                  from="${GroupEnum.values()}"
+                  value="${person?.groupTeam}"
+                  valueMessagePrefix="com.narvarte.campestre.enums.GroupEnum"
+                  required=""
+        />
+        <label for="transport">Grupo</label>
     </div>
 
 </div>

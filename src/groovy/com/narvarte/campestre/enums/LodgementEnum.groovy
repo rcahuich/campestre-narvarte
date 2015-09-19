@@ -3,7 +3,7 @@ package com.narvarte.campestre.enums
 /**
  * Created by rbnseven on 09/09/15.
  */
-public enum LodgementEnum  implements org.springframework.context.MessageSourceResolvable{
+public enum LodgementEnum implements org.springframework.context.MessageSourceResolvable{
     OWN_TENT,
     TENT_CHURCH_WOMEN,
     TENT_CHURCH_MAN,

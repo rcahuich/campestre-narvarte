@@ -90,6 +90,7 @@
         </style>
 
         <script type="text/javascript">
+            var idMemberDelete;
             jQuery(document).ready(function () {
                 $('.modal-trigger').leanModal({
                             dismissible: false, // Modal can be dismissed by clicking outside of the modal
@@ -168,6 +169,52 @@
                     }
 
                 });
+
+                $(document).on('click', '#deleteMember', function (e) {
+                    e.preventDefault();
+                    var nameMember = $(this).attr('data-name');
+                    var idPerson = $(this).attr('data-idperson');
+                    idMemberDelete = idPerson;
+                    $('#nameMemberDelete').html(nameMember);
+                    console.log(idMemberDelete);
+
+                });
+
+                $(document).on('click', '#deleteEventD', function (e) {
+                    e.preventDefault();
+
+                    if(idMemberDelete != ""){
+                        $('#loaderD').show();
+                        $(this).prop('disabled', true);
+                        $(this).addClass("disabled");
+
+                        $.ajax({
+                            type: "GET",
+                            data: {idMember: idMemberDelete},
+                            url: '<g:createLink controller="family" action="deleteMember" id="${family.id}"/>',
+                            success: function (data) {
+                                $('#deleteEventD').hide();
+                                $('#btnCancelD').hide();
+                                $('#textInfoD').hide();
+                                $('#btnCloseD').show();
+                                $('#textSuccesD').html(data.messague);
+                                $('#loaderD').hide();
+                                $('#alertSuccessD').show();
+                            },
+                            error: function (data) {
+                                $('#deleteEventD').hide();
+                                $('#btnCancelD').hide();
+                                $('#textInfoD').hide();
+                                $('#btnCloseD').show();
+                                $('#textErrorD').html(data.responseText);
+                                $('#loaderD').hide();
+                                $('#alertErrorD').show();
+                            }
+                        });
+                    }
+
+                });
+
             })
 
         </script>
@@ -196,8 +243,14 @@
                             <p class="medium-small grey-text">Total a Pagar</p>
                         </div>
                         <div class="col s2 center-align">
-                            <h4 class="card-title grey-text text-darken-4">$ <g:formatNumber number="${family.totalPayment() - family.totalPay()}" format="###,##0" locale="us"/></h4>
-                            <p class="medium-small grey-text">Resta a Pagar</p>
+                            <g:if test="${family.payCompleted()}">
+                                <h4 class="card-title grey-text text-darken-4">$ 0</h4>
+                                <p class="medium-small grey-text">Familia pagada</p>
+                            </g:if>
+                            <g:else>
+                                <h4 class="card-title grey-text text-darken-4">$ <g:formatNumber number="${family.totalPayment() - family.totalPay()}" format="###,##0" locale="us"/></h4>
+                                <p class="medium-small grey-text">Resta a Pagar</p>
+                            </g:else>
                         </div>
                         <div class="col s1 right-align">
                             <a class="btn-floating activator waves-effect waves-light darken-2 right">
@@ -227,7 +280,7 @@
 
             <a class="waves-effect waves-light btn" href="${createLink(action: "index")}"><i class="material-icons left">arrow_back</i> Lista de Familias</a>
             <a class="waves-effect waves-light btn" href="#"><i class="material-icons left">edit</i> Editar Familia</a>
-            <a class="waves-effect waves-light btn modal-trigger" href="#modalAddPayment"><i class="material-icons left">payment</i> Realizar Pago</a>
+            <a class="waves-effect waves-light btn <g:if test="${!family.payCompleted()}">modal-trigger</g:if> <g:else>disabled</g:else>" href="#modalAddPayment"><i class="material-icons left">payment</i> Realizar Pago</a>
             <a class="waves-effect waves-light btn modal-trigger" href="#modalAddMember"><i class="material-icons left">account_box</i> Agregar Miembro</a>
 
             <g:if test="${flash.message}">
@@ -248,6 +301,11 @@
                                 </div>
                                 <div class="card-action center-align truncate">
                                     <a href="${createLink(controller: "person", action: "detail", id: person.id)}" class="black-text text-darken-4">Ver Registro</a>
+                                    <a id="deleteMember" href="#modalDeleteMember" class="black-text text-darken-4 modal-trigger red-text"
+                                       data-name="${person.name}"
+                                       data-idperson="${person.id}"
+                                    >
+                                        Eliminar</a>
                                 </div>
                             </div><!--/card-->
                         </div>
@@ -390,6 +448,64 @@
             <a id="deleteEventP" href="#!" class="waves-effect waves-teal btn-flat">
                 <i class="material-icons left">payment</i> Pagar </a>
             <a id="btnCancelP" href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        </div>
+    </div>
+
+    <!-- Modal Delete Member -->
+    <div id="modalDeleteMember" class="modal">
+        <div class="modal-content">
+            <h4>Eliminar Miembro de la Familia</h4>
+
+            <div id="textInfoD">
+                Esta seguro de eliminar a <span id="nameMemberDelete"></span> de la Familia ${family?.name}?
+
+                <div class="row">
+
+
+                </div>
+            </div>
+
+            <div id="alertSuccessD" class="card-panel" style="display: none;">
+                <div class="col s12 center">
+                    <div class="card blue-grey darken-1 light">
+                        <div class="card-content white-text">
+                            <i class="large material-icons">done</i>
+                            <p id="textSuccesD"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="alertErrorD" class="card-panel" style="display: none;">
+                <span class="red-text text-darken-2"><i class="material-icons left">error</i>
+                    <span id="textErrorD"></span></span>
+            </div>
+
+            <div id="loaderD" class="col s12 m4 center" style="display: none;">
+                <div class="preloader-wrapper small active">
+                    <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <a id="btnCloseD" class="waves-effect waves-green btn-flat" href="${createLink(action: "detail", id: family.id)}"
+               style="display: none;">Cerrar</a>
+            <a id="deleteEventD" href="#!" class="waves-effect waves-red btn-flat">
+                <i class="material-icons left">delete</i> Eliminar </a>
+            <a id="btnCancelD" href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
         </div>
     </div>
 

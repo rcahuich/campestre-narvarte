@@ -90,7 +90,6 @@
                         </div>
                         <div class="card-action">
                             <a href="${createLink(action: "index")}">Lista de Familias</a>
-                            <a href="#">Agregar miembros</a>
                         </div>
                     </div>
                 </div>

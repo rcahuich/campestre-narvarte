@@ -65,4 +65,15 @@ class FamilyController {
         }
     }
 
+    def deleteMember(){
+        try {
+            Map result = utilsService.deleteMemberForFamily(params)
+            render ([status:"succes", messague: "Se elimino a ${result.person.name} de la Familia ${result.family.name}."] as JSON)
+        } catch (Exception e){
+            log.error(e)
+            response.status = 422
+            render (e.getMessage())
+        }
+    }
+
 }

@@ -56,6 +56,7 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Cabeza</th>
+                    <th>Pago Completo</th>
                     <th>Total</th>
                     <th></th>
                 </tr>
@@ -66,6 +67,7 @@
                         <td>${i+1}</td>
                         <td>${fieldValue(bean: family, field: "name")}</td>
                         <td>${family?.header?.name}</td>
+                        <td><g:message code="com.narvarte.campestre.boolean.${family?.payCompleted()}"/></td>
                         <td>${family?.personsList.size()}</td>
                         <td><a href="${createLink(action: "detail", id: family.id)}" class="waves-effect waves-light btn">Detalles</a></td>
                     </tr>

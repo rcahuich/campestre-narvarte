@@ -1,11 +1,14 @@
 package com.narvarte.campestre
 
 import com.narvarte.campestre.enums.BaptismEnum
+import com.narvarte.campestre.enums.GroupEnum
 import com.narvarte.campestre.enums.LodgementEnum
 import com.narvarte.campestre.enums.TransportEnum
 import com.narvarte.campestre.enums.TypePersonEnum
 import grails.transaction.Transactional
 import org.apache.commons.lang.RandomStringUtils
+
+import javax.validation.constraints.Null
 
 @Transactional
 class UtilsService {
@@ -118,6 +121,7 @@ class UtilsService {
         person.typePerson = TypePersonEnum[params.typePerson]
         person.transport = TransportEnum[params.transport]
         person.lodgement = LodgementEnum[params.lodgement]
+        person.groupTeam = GroupEnum[params.groupTeam]
         person.typeCost = TypeCost.get(params.typeCost.id.toLong())
         person.event = event
         person.realCost = person.typeCost.cost
@@ -153,9 +157,11 @@ class UtilsService {
         person.typePerson = TypePersonEnum[params.typePerson]
         person.transport = TransportEnum[params.transport]
         person.lodgement = LodgementEnum[params.lodgement]
+        person.groupTeam = GroupEnum[params.groupTeam]
         person.typeCost = TypeCost.get(params.typeCost.id.toLong())
         person.realCost = person.typeCost.cost
         person.fictitiousCost = params.double('fictitiousCost')
+        person.dateUpdate = new Date()
 
         person.validate()
         if (person.hasErrors()) {
@@ -265,8 +271,52 @@ class UtilsService {
             throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
         }
 
-        return [success: true, family: family, payment: payment]
+        if (family.payCompleted()){
+            family.personsList.each {Person person ->
+                person.enrollment = true
+                person.save(flush: true)
+            }
+        }
 
+        return [success: true, family: family, payment: payment, ]
+
+    }
+
+    Map deleteMemberForFamily(Map params) {
+
+        Person personTmp = Person.get(params.idMember.toLong())
+        Family family = Family.get(params.id.toLong())
+
+        if(!family || !personTmp) {
+            log.error("No se encontro a la Persona o Familia.")
+            throw new Exception("Ocurrio un error al guardar. Intenta de nuevo.")
+        }
+
+        if (family.header == personTmp){
+            log.error("No se puede eliminar a la Cabeza de Familia.")
+            throw new Exception("No puede eliminar a la Cabeza de Familia.")
+        }
+
+        Person person = family.personsList.find {it.id == params.idMember.toLong()}
+        Person personNew = new Person(
+                name: person.name,
+                birthday: person.birthday,
+                baptism: person.baptism,
+                typePerson: person.typePerson,
+                transport: person.transport,
+                lodgement: person.lodgement,
+                typeCost: person.typeCost,
+                groupTeam: person.groupTeam,
+                event: person.event,
+                fictitiousCost: person.fictitiousCost,
+                realCost: person.realCost,
+                dateCreated: person.dateCreated,
+                dateUpdate: person.dateUpdate
+        ).save(flush: true)
+
+        family.removeFromPersonsList(person)
+
+        return [success: true, person: personNew, family: family]
     }
 
     private String generateRandomString(int length){

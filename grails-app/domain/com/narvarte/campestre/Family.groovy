@@ -12,6 +12,10 @@ class Family {
     static constraints = {
     }
 
+    static mapping = {
+        personsList lazy: false, cascade: "all-delete-orphan"
+    }
+
     Double totalPayment() {
         return personsList.findAll()*.realCost.sum()?:0.0
     }
@@ -19,4 +23,9 @@ class Family {
     Double totalPay() {
         return payments.findAll()*.total.sum()?:0.0
     }
+
+    Boolean payCompleted(){
+        return this.totalPay() >= this.totalPayment() && this.payments.size() > 0
+    }
+
 }
