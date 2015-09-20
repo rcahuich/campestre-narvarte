@@ -5,7 +5,8 @@ package com.narvarte.campestre.enums
  */
 public enum BaptismEnum implements org.springframework.context.MessageSourceResolvable{
     YES_BAPTIZED,
-    NOT_BAPTIZED
+    NOT_BAPTIZED,
+	CHILDREN_CHURCH
 
     Object[] getArguments() { [] as Object[] }
 

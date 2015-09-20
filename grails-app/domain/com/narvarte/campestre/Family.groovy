@@ -17,7 +17,7 @@ class Family {
     }
 
     Double totalPayment() {
-        return personsList.findAll()*.realCost.sum()?:0.0
+        return personsList.findAll()*.fictitiousCost.sum()?:0.0
     }
 
     Double totalPay() {
