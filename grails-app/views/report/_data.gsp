@@ -38,6 +38,7 @@ Total de Personas: ${personList.size()}
 <table id="tableData">
     <thead>
     <tr>
+        <th>#</th>
         <th>Nombre</th>
         <th>Fecha de Pago Completo</th>
         <th>Edad</th>
@@ -51,6 +52,7 @@ Total de Personas: ${personList.size()}
     <tbody>
     <g:each in="${personList}" status="i" var="person">
         <tr>
+            <td>${i+1}</td>
             <td>${person?.name}</td>
             <td><g:formatDate date="${person.datePaymentCompleted}" format="dd/MM/yyyy HH:mm"/></td>
             <td>${person.age}</td>
