@@ -29,11 +29,13 @@ class Person {
 
     Date dateCreated = new Date()
     Date dateUpdate = new Date()
+    Date datePaymentCompleted
 
     static belongsTo = [event: Event, family: Family]
 
     static constraints = {
         family nullable: true
+        datePaymentCompleted nullable: true
     }
 
     def getAge(){

@@ -276,6 +276,7 @@ class UtilsService {
         if (family.payCompleted()){
             family.personsList.each {Person person ->
                 person.enrollment = true
+                person.datePaymentCompleted = new Date()
                 person.save(flush: true)
             }
         }
