@@ -61,7 +61,7 @@ class ReportService {
                 conditionsValues.put("groupTeam",GroupEnum.values().collect{it})
             }else{
                 conditions += [" person.groupTeam = :groupTeam "]
-                conditionsValues.put("groupTeam",GroupEnum[params.lodgement])
+                conditionsValues.put("groupTeam",GroupEnum[params.groupTeam])
             }
         }
 

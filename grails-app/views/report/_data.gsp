@@ -54,7 +54,7 @@ Total de Personas: ${personList.size()}
         <tr>
             <td>${i+1}</td>
             <td>${person?.name}</td>
-            <td><g:formatDate date="${person.datePaymentCompleted}" format="dd/MM/yyyy HH:mm"/></td>
+            <td><g:formatDate date="${person.datePaymentCompleted}" format="dd-MM-yyyy HH:mm"/></td>
             <td>${person.age}</td>
             <td><g:message code="com.narvarte.campestre.boolean.${person?.enrollment}"/></td>
             <td><g:message code="com.narvarte.campestre.boolean.${person?.headerFamily}"/></td>
