@@ -8,6 +8,8 @@
     <asset:stylesheet src="dataTables.tableTools.css"/>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/1.0.6/css/dataTables.responsive.css">
     <asset:javascript src="jquery.dataTables.js"/>
+    <asset:javascript src="ZeroClipboard.js"/>
+    <asset:javascript src="TableTools.js"/>
     <script type="text/javascript" src="//cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.js"></script>
 
     <script type="text/javascript">
