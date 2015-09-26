@@ -17,7 +17,7 @@
         <hr>
 
 
-        <div class="row card">
+        <div class="row">
             <div class="col s12 m6 l3">
                 <div class="card">
                     <div class="card-content blue-grey white-text">
@@ -95,6 +95,7 @@
             success: function (data) {
                 $('#resultTotalGroupsTeam').html(data);
                 $('#loader-groups').hide();
+
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log(textStatus);
@@ -105,6 +106,7 @@
 
     $(document).ready(function () {
         totalGroupsTeam("#totalGroupsTeam");
+
 
     });
 

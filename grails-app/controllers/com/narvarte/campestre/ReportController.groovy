@@ -8,7 +8,7 @@ class ReportController {
 
     def index() {
         Integer totalFamily = Family.count()
-        Double totalPayment = Person.findAll()*.fictitiousCost.sum()?:0.0
+        Double totalPayment = PaymentEnroll.findAll()*.total.sum()?:0.0
         Integer totalRegister = Person.count()
         Integer totalEnrollment = Person.countByEnrollment(true)
 
