@@ -82,9 +82,38 @@ class ReportService {
             conditionsValues.put("haveFamily", false)
         }
 
-        personList = Person.executeQuery("SELECT person from Person as person ${conditions.isEmpty()?"":"  WHERE ${conditions.join(" AND ")}"}",conditionsValues)
+        personList = Person.executeQuery("SELECT person from Person as person ${conditions.isEmpty()?"":"  WHERE ${conditions.join(" AND ")}"} order by person.datePaymentCompleted asc",conditionsValues)
 
         return personList
     }
 
+    Map dataGroupTeams() {
+        Map result = [:]
+
+        List nameGroups = [
+                'Niño hasta 4 años',
+                'Niño de 5 a 12 años',
+                'Adolescente Menor de 17 años',
+                'Jovenes 1, menor de 34 años',
+                'Jovenes 2, mayor de 35 años',
+                'Matrimonio',
+                'Mujer',
+                'Hombre'
+        ]
+
+        List valueGroups = [
+                Person.countByGroupTeam(GroupEnum.UNDER_4),
+                Person.countByGroupTeam(GroupEnum.MENOR_12),
+                Person.countByGroupTeam(GroupEnum.TEEN_17),
+                Person.countByGroupTeam(GroupEnum.YOUNG_ONE_34),
+                Person.countByGroupTeam(GroupEnum.YOUNG_TWO_35),
+                Person.countByGroupTeam(GroupEnum.MARRIED),
+                Person.countByGroupTeam(GroupEnum.WOMAN),
+                Person.countByGroupTeam(GroupEnum.MAN)
+        ]
+
+        result = [nameGroups: nameGroups, valueGroups: valueGroups]
+
+        return result
+    }
 }

@@ -1,6 +1,5 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        $('select').material_select();
         $('#tableData').DataTable({
             responsive: true,
             "language": {
@@ -50,7 +49,7 @@
 
 Total de Personas: ${personList.size()}
 
-<table id="tableData" class="ui compact selectable striped celled table raised segment">
+<table id="tableData" class="striped">
     <thead>
     <tr>
         <th>#</th>

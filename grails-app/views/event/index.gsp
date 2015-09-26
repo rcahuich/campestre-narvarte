@@ -41,7 +41,26 @@
                 });
             });
         </script>
-
+        <style type="text/css">
+        .dataTables_length select
+        {
+            background:#ffffff none repeat scroll 0 0;
+            border: 1px solid rgba(34, 36, 38, 0.15);
+            border-radius: 0.285714rem;
+            box-shadow: none;
+            color: rgba(0, 0, 0, 0.87);
+            cursor: pointer;
+            display: inline-block;
+            line-height: 1.2142em;
+            min-height: 0.714286em;
+            outline: 0 none;
+            padding: 0.3em;
+            transform: rotateZ(0deg);
+            transition: box-shadow 0.1s ease 0s, width 0.1s ease 0s;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        </style>
 	</head>
 	<body>
         <div class="container">
@@ -55,9 +74,10 @@
                 </div>
             </g:if>
 
-            <table id="tableData">
+            <table id="tableData" class="striped">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th>Nombre</th>
                     <th>Fecha de Inicio</th>
                     <th>Fecha de Fin</th>
@@ -69,6 +89,7 @@
                 <tbody>
                 <g:each in="${eventList}" status="i" var="eventInstance">
                     <tr>
+                        <td>${i+1}</td>
                         <td>${fieldValue(bean: eventInstance, field: "name")}</td>
                         <td><g:formatDate date="${eventInstance.startDate}" format="dd/MM/yyyy"/></td>
                         <td><g:formatDate date="${eventInstance.endtDate}" format="dd/MM/yyyy"/></td>

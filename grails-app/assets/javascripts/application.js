@@ -6,8 +6,7 @@
 // to create separate JavaScript files as needed.
 //
 //= require jquery
-//= require_tree .
-//= require_self
+//= require materialize.min
 
 if (typeof jQuery !== 'undefined') {
 	(function($) {
