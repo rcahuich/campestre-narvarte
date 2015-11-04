@@ -60,6 +60,7 @@ Total de Personas: ${personList.size()}
         <th>Cab. de Familia</th>
         <th>Tipo</th>
         <th>Bautizado</th>
+		<th>Asegurado</th>
     </tr>
     </thead>
     <tbody>
@@ -74,7 +75,8 @@ Total de Personas: ${personList.size()}
             <td><g:message code="com.narvarte.campestre.boolean.${person?.headerFamily}"/></td>
             <td><g:message code="com.narvarte.campestre.enums.TypePersonEnum.${person?.typePerson}"/></td>
             <td><g:message code="com.narvarte.campestre.enums.BaptismEnum.${person?.baptism}"/></td>
-        </tr>
+			<td><g:message code="com.narvarte.campestre.boolean.${person?.secured}"/></td>
+		</tr>
     </g:each>
     </tbody>
 </table>
